@@ -28,30 +28,29 @@ elif [ "$type" == "mysql"  ] ;then
     echo "$line" | awk '{print $7}' | sed 's/\//\\\//g' > db_socket.tmp
     db_socket=`cat ./db_socket.tmp`
     rm -f ./db_socket.tmp	
-	cp mysql_backup.rb.model ./${db_name}_backup.rb
-	sed -i "s/mysql_backup/${db_name}_backup/g" ./${db_name}_backup.rb
-	sed -i "s/my_database_name/${db_name}/g" ./${db_name}_backup.rb
-    sed -i "s/my_username/${db_user}/" ./${db_name}_backup.rb
-    sed -i "s/my_password/${db_passwd}/g" ./${db_name}_backup.rb
-	[ "$db_port" == "" ] || sed -i "s/3306/${db_port}/g" ./${db_name}_backup.rb
-	[ "$db_socket" == "" ] || sed -i "s/\/tmp\/mysql.sock/${db_socket}/g" ./${db_name}_backup.rb
-	sed -i "s/backups_xiu/${my_name}/g" ./${db_name}_backup.rb
-	mv ./${db_name}_backup.rb ${model_dir}
+	cp mysql_backup.rb.model ./mysql_${db_name}_backup.rb
+	sed -i "s/mysql_backup/mysql_${db_name}_backup/g" ./mysql_${db_name}_backup.rb
+	sed -i "s/my_database_name/${db_name}/g" ./mysql_${db_name}_backup.rb
+    sed -i "s/my_username/${db_user}/" ./mysql_${db_name}_backup.rb
+    sed -i "s/my_password/${db_passwd}/g" ./mysql_${db_name}_backup.rb
+	[ "$db_port" == "" ] || sed -i "s/3306/${db_port}/g" ./mysql_${db_name}_backup.rb
+	[ "$db_socket" == "" ] || sed -i "s/\/tmp\/mysql.sock/${db_socket}/g" ./mysql_${db_name}_backup.rb
+	sed -i "s/backups_xiu/${my_name}/g" ./mysql_${db_name}_backup.rb
+	mv ./mysql_${db_name}_backup.rb ${model_dir}
 	backup  perform --trigger ${db_name}_backup
 elif [ "$type" == "mongodb"  ] ;then
 	db_name=`echo "$line" | awk '{print $3}'`
     db_user=`echo "$line" | awk '{print $4}'`
     db_passwd=`echo "$line" | awk '{print $5}'`
     db_port=`echo "$line" | awk '{print $6}'`
-	cp mongodb_backup.rb.model ./${db_name}_backup.rb
-    sed -i "s/mongodb_backup/${db_name}_backup/g" ./${db_name}_backup.rb
-    sed -i "s/my_database_name/${db_name}/g" ./${db_name}_backup.rb
-    sed -i "s/my_username/${db_user}/g" ./${db_name}_backup.rb
-    sed -i "s/my_password/${db_passwd}/" ./${db_name}_backup.rb
-	[ "$db_port" == "" ] || sed -i "s/5432/${db_port}/g" ./${db_name}_backup.rb
-#   [ "$db_socket" == "" ] || sed -i "s/\/tmp\/mongodb.sock/${db_socket}/g" ./redis_backup.rb
-	sed -i "s/backups_xiu/${my_name}/g" ./${db_name}_backup.rb
-	mv ./${db_name}_backup.rb ${model_dir}
+	cp mongodb_backup.rb.model ./mongodb_${db_name}_backup.rb
+    sed -i "s/mongodb_backup/mongodb_${db_name}_backup/g" ./mongodb_${db_name}_backup.rb
+    sed -i "s/my_database_name/${db_name}/g" ./mongodb_${db_name}_backup.rb
+    sed -i "s/my_username/${db_user}/g" ./mongodb_${db_name}_backup.rb
+    sed -i "s/my_password/${db_passwd}/" ./mongodb_${db_name}_backup.rb
+	[ "$db_port" == "" ] || sed -i "s/5432/${db_port}/g" ./mongodb_${db_name}_backup.rb
+	sed -i "s/backups_xiu/${my_name}/g" ./mongodb_${db_name}_backup.rb
+	mv ./mongodb_${db_name}_backup.rb ${model_dir}
 	backup  perform --trigger ${db_name}_backup
 elif [ "$type" == "redis"  ] ;then
     echo "$line" | awk '{print $3}' | sed 's/\//\\\//g'  > db_path.tmp
