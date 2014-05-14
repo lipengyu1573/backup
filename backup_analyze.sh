@@ -37,7 +37,7 @@ elif [ "$type" == "mysql"  ] ;then
 	[ "$db_socket" == "" ] || sed -i "s/\/tmp\/mysql.sock/${db_socket}/g" ./mysql_${db_name}_backup.rb
 	sed -i "s/backups_xiu/${my_name}/g" ./mysql_${db_name}_backup.rb
 	mv ./mysql_${db_name}_backup.rb ${model_dir}
-	backup  perform --trigger ${db_name}_backup
+	backup  perform --trigger mysql_${db_name}_backup
 elif [ "$type" == "mongodb"  ] ;then
 	db_name=`echo "$line" | awk '{print $3}'`
     db_user=`echo "$line" | awk '{print $4}'`
@@ -51,7 +51,7 @@ elif [ "$type" == "mongodb"  ] ;then
 	[ "$db_port" == "" ] || sed -i "s/5432/${db_port}/g" ./mongodb_${db_name}_backup.rb
 	sed -i "s/backups_xiu/${my_name}/g" ./mongodb_${db_name}_backup.rb
 	mv ./mongodb_${db_name}_backup.rb ${model_dir}
-	backup  perform --trigger ${db_name}_backup
+	backup  perform --trigger mongodb_${db_name}_backup
 elif [ "$type" == "redis"  ] ;then
     echo "$line" | awk '{print $3}' | sed 's/\//\\\//g'  > db_path.tmp
 	db_path=`cat ./db_path.tmp`
