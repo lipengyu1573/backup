@@ -12,3 +12,21 @@ minionid mongodb dbname dbuser dbpasswd dbport （只支持单个数据库备份
 minionid redis dbpath dbpasswd dbport dbsocket  （套接字项目可以不填，默认/tmp/redis.sock )
 
 每行一个任务，需要确保任务指令正确
+
+实际执行备份任务时，需要：
+1、给所有服务器安装git、backup（git可使用yum install git，backup 可以用gem install backup，gem依赖于ruby ）
+
+2、将所有机器的公钥放到git仓库服务器上（先连接一下，expect脚本自动交互，git首次克隆可能需要用户确认yes）
+
+3、写配置文件，将所有服务器要执行的任务按照上面的格式全部完成。
+
+
+
+
+
+
+
+
+
+
+
