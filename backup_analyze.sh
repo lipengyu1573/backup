@@ -1,4 +1,5 @@
 #!/bin/bash
+dir_now=`pwd`
 all=`cat ./configuration.cnf`
 my_name=`more /etc/salt/minion | grep -v "^#" | grep -v "^$" | grep id | awk '{print $2}'`
 my_task=`echo "$all" | grep "^$my_name"`
@@ -28,6 +29,7 @@ if [ "$type" == "file" ] ;then
 	abc=`backup perform --trigger my_backup 2>&1 `
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "mysql"  ] ;then
+	cd $dir_now
 	db_name=`echo "$line" | awk '{print $3}'`
     db_user=`echo "$line" | awk '{print $4}'`
     db_passwd=`echo "$line" | awk '{print $5}'`
@@ -48,6 +50,7 @@ elif [ "$type" == "mysql"  ] ;then
 	abc=`backup  perform --trigger mysql_${db_name}_backup 2>&1`
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "mongodb"  ] ;then
+    cd $dir_now
 	db_name=`echo "$line" | awk '{print $3}'`
     db_user=`echo "$line" | awk '{print $4}'`
     db_passwd=`echo "$line" | awk '{print $5}'`
@@ -64,6 +67,7 @@ elif [ "$type" == "mongodb"  ] ;then
 	abc=`backup  perform --trigger mongodb_${db_name}_backup 2>&1`
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "redis"  ] ;then
+    cd $dir_now
     echo "$line" | awk '{print $3}' | sed 's/\//\\\//g'  > db_path.tmp
 	db_path=`cat ./db_path.tmp`
 	rm -f ./db_path.tmp
