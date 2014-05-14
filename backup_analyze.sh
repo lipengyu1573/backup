@@ -5,7 +5,7 @@ my_task=`echo "$all" | grep "^$minion"`
 storage_dir="/root/backups"
 model_dir="/root/Backup/models/"
 
-gger_new(){
+logger_new(){
     logger -s -t crontab_center -p local3.${1}
 }
 
