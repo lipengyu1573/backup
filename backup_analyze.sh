@@ -80,7 +80,7 @@ elif [ "$type" == "redis"  ] ;then
     sed -i "s/\/var\/lib\/redis\/dump.rdb/${db_path}/g" ./redis_backup.rb
     sed -i "s/my_password/${db_passwd}/g" ./redis_backup.rb
     sed -i "s/6379/${db_port}/g" ./redis_backup.rb
-    sed -i "s/\/tmp\/redis.sock/${db_socket}/g" ./redis_backup.rb
+    [ "$db_socket" == "" ] || sed -i "s/\/tmp\/redis.sock/${db_socket}/g" ./redis_backup.rb
     sed -i "s/backups_xiu/${my_name}/g" ./redis_backup.rb
     mv ./redis_backup.rb  ${model_dir}
 	cd ~

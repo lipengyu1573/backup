@@ -9,6 +9,6 @@ minionid mysql dbname dbuser dbpasswd dbport dbsocket  （套接字项目可以�
 minionid mongodb dbname dbuser dbpasswd dbport （只支持单个数据库备份，需要备份多个数据库时，需要建立多个项目）
 
 4、redis备份
-minionid redis dbpath dbpasswd dbport dbsocket  
+minionid redis dbpath dbpasswd dbport dbsocket  （套接字项目可以不填，默认/tmp/redis.sock )
 
 每行一个任务，需要确保任务指令正确
