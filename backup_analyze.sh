@@ -1,7 +1,7 @@
 #!/bin/bash
 all=`cat ./configuration.cnf`
 my_name=`more /etc/salt/minion | grep -v "^#" | grep -v "^$" | grep id | awk '{print $2}'`
-my_task=`echo "$all" | grep "^$minion"`
+my_task=`echo "$all" | grep "^$my_name"`
 storage_dir="/root/backups"
 model_dir="/root/Backup/models/"
 
@@ -24,8 +24,9 @@ if [ "$type" == "file" ] ;then
 	done
     sed -i "s/backups_xiu/${my_name}/g" ./my_backup.rb
 	mv ./my_backup.rb ${model_dir}
-	abc=`backup perform --trigger my_backup 2>&1 `
-	[ "$?" == "0" ] || echo "$abc" | logger_new err
+	backup perform --trigger my_backup
+#	abc=`backup perform --trigger my_backup 2>&1 `
+#	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "mysql"  ] ;then
 	db_name=`echo "$line" | awk '{print $3}'`
     db_user=`echo "$line" | awk '{print $4}'`
@@ -43,8 +44,9 @@ elif [ "$type" == "mysql"  ] ;then
 	[ "$db_socket" == "" ] || sed -i "s/\/tmp\/mysql.sock/${db_socket}/g" ./mysql_${db_name}_backup.rb
 	sed -i "s/backups_xiu/${my_name}/g" ./mysql_${db_name}_backup.rb
 	mv ./mysql_${db_name}_backup.rb ${model_dir}
-	abc=`backup  perform --trigger mysql_${db_name}_backup`
-	[ "$?" == "0" ] || echo "$abc" | logger_new err
+	backup  perform --trigger mysql_${db_name}_backup
+#	abc=`backup  perform --trigger mysql_${db_name}_backup 2>&1`
+#	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "mongodb"  ] ;then
 	db_name=`echo "$line" | awk '{print $3}'`
     db_user=`echo "$line" | awk '{print $4}'`
@@ -58,8 +60,9 @@ elif [ "$type" == "mongodb"  ] ;then
 	[ "$db_port" == "" ] || sed -i "s/5432/${db_port}/g" ./mongodb_${db_name}_backup.rb
 	sed -i "s/backups_xiu/${my_name}/g" ./mongodb_${db_name}_backup.rb
 	mv ./mongodb_${db_name}_backup.rb ${model_dir}
-	abc=`backup  perform --trigger mongodb_${db_name}_backup`
-	[ "$?" == "0" ] || echo "$abc" | logger_new err
+	backup  perform --trigger mongodb_${db_name}_backup 2>&1
+#	abc=`backup  perform --trigger mongodb_${db_name}_backup 2>&1`
+#	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "redis"  ] ;then
     echo "$line" | awk '{print $3}' | sed 's/\//\\\//g'  > db_path.tmp
 	db_path=`cat ./db_path.tmp`
@@ -76,8 +79,9 @@ elif [ "$type" == "redis"  ] ;then
     sed -i "s/\/tmp\/redis.sock/${db_socket}/g" ./redis_backup.rb
     sed -i "s/backups_xiu/${my_name}/g" ./redis_backup.rb
     mv ./redis_backup.rb  ${model_dir}
-	abc=`backup  perform --trigger redis_backup`
-	[ "$?" == "0" ] || echo "$abc" | logger_new err
+	backup  perform --trigger redis_backup 2>&1
+#	abc=`backup  perform --trigger redis_backup 2>&1`
+#	[ "$?" == "0" ] || echo "$abc" | logger_new err
 fi
 echo "--------------------------------------------------------------------------------------------------"
 done
