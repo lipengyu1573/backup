@@ -1,0 +1,53 @@
+# encoding: utf-8
+
+##
+# Backup Generated: mysql_backup
+# Once configured, you can run the backup with the following command:
+#
+# $ backup perform -t mysql_backup [-c <path_to_configuration_file>]
+#
+# For more information about Backup's components, see the documentation at:
+# http://meskyanichi.github.io/backup
+#
+Model.new(:mysql_backup, 'Description for mysql_backup') do
+
+  ##
+  # MySQL [Database]
+  #
+  database MySQL do |db|
+    # To dump all databases, set `db.name = :all` (or leave blank)
+    db.name               = "my_database_name"
+    db.username           = "my_username"
+    db.password           = "my_password"
+    db.host               = "localhost"
+    db.port               = 3306
+    db.socket             = "/tmp/mysql.sock"
+    # Note: when using `skip_tables` with the `db.name = :all` option,
+    # table names should be prefixed with a database name.
+    # e.g. ["db_name.table_to_skip", ...]
+#    db.skip_tables        = ["skip", "these", "tables"]
+#    db.only_tables        = ["only", "these", "tables"]
+    db.additional_options = ["--quick", "--single-transaction"]
+  end
+
+  ##
+  # SCP (Secure Copy) [Storage]
+  #
+  store_with SCP do |server|
+    server.username   = "root"
+    server.password   = "a6661573"
+    server.ip         = "192.168.39.16"
+    server.port       = 22
+    server.path       = "/root/backups/backups_xiu"
+    server.keep       = 1
+
+    # Additional options for the SSH connection.
+    # server.ssh_options = {}
+  end
+
+  ##
+  # Gzip [Compressor]
+  #
+  compress_with Gzip
+
+end

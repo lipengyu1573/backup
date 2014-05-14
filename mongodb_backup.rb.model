@@ -1,0 +1,50 @@
+# encoding: utf-8
+
+##
+# Backup Generated: mongodb_backup
+# Once configured, you can run the backup with the following command:
+#
+# $ backup perform -t mongodb_backup [-c <path_to_configuration_file>]
+#
+# For more information about Backup's components, see the documentation at:
+# http://meskyanichi.github.io/backup
+#
+Model.new(:mongodb_backup, 'Description for mongodb_backup') do
+
+  ##
+  # MongoDB [Database]
+  #
+  database MongoDB do |db|
+    db.name               = "my_database_name"
+    db.username           = "my_username"
+    db.password           = "my_password"
+    db.host               = "localhost"
+    db.port               = 27017
+    db.ipv6               = false
+#    db.only_collections   = ["only", "these", "collections"]
+    db.additional_options = []
+    db.lock               = false
+    db.oplog              = false
+  end
+
+  ##
+  # SCP (Secure Copy) [Storage]
+  #
+  store_with SCP do |server|
+    server.username   = "root"
+    server.password   = "a6661573"
+    server.ip         = "192.168.39.16"
+    server.port       = 22
+    server.path       = "/root/backups/backups_xiu"
+    server.keep       = 1
+
+    # Additional options for the SSH connection.
+    # server.ssh_options = {}
+  end
+
+  ##
+  # Gzip [Compressor]
+  #
+  compress_with Gzip
+
+end

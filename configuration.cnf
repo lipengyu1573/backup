@@ -1,0 +1,4 @@
+centos-0003 file /usr/local/ceshi /usr/local/ceshi2
+centos-0003 mysql chris root dogoicq 3306 /tmp/mysql.sock
+centos-0003 mongodb chris root dogoicq 27017
+centos-0003 redis /var/lib/redis/dump.rdb dogoicq 6379 /tmp/redis.sock

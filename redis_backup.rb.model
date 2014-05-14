@@ -1,0 +1,51 @@
+# encoding: utf-8
+
+##
+# Backup Generated: redis_backup
+# Once configured, you can run the backup with the following command:
+#
+# $ backup perform -t redis_backup [-c <path_to_configuration_file>]
+#
+# For more information about Backup's components, see the documentation at:
+# http://meskyanichi.github.io/backup
+#
+Model.new(:redis_backup, 'Description for redis_backup') do
+
+  ##
+  # Redis [Database]
+  #
+  database Redis do |db|
+    db.mode               = :copy # or :sync
+    # Full path to redis dump file for :copy mode.
+    db.rdb_path           = '/var/lib/redis/dump.rdb'
+    # When :copy mode is used, perform a SAVE before
+    # copying the dump file specified by `rdb_path`.
+    db.invoke_save        = false
+    db.host               = 'localhost'
+    db.port               = 6379
+    db.socket             = '/tmp/redis.sock'
+    db.password           = 'my_password'
+    db.additional_options = []
+  end
+
+  ##
+  # SCP (Secure Copy) [Storage]
+  #
+  store_with SCP do |server|
+    server.username   = "root"
+    server.password   = "a6661573"
+    server.ip         = "192.168.39.16"
+    server.port       = 22
+    server.path       = "/root/backups/backups_xiu"
+    server.keep       = 1
+
+    # Additional options for the SSH connection.
+    # server.ssh_options = {}
+  end
+
+  ##
+  # Gzip [Compressor]
+  #
+  compress_with Gzip
+
+end
