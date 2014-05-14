@@ -24,7 +24,7 @@ if [ "$type" == "file" ] ;then
 	done
     sed -i "s/backups_xiu/${my_name}/g" ./my_backup.rb
 	mv ./my_backup.rb ${model_dir}
-#	backup perform --trigger my_backup
+	cd ~
 	abc=`backup perform --trigger my_backup 2>&1 `
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "mysql"  ] ;then
@@ -44,7 +44,7 @@ elif [ "$type" == "mysql"  ] ;then
 	[ "$db_socket" == "" ] || sed -i "s/\/tmp\/mysql.sock/${db_socket}/g" ./mysql_${db_name}_backup.rb
 	sed -i "s/backups_xiu/${my_name}/g" ./mysql_${db_name}_backup.rb
 	mv ./mysql_${db_name}_backup.rb ${model_dir}
-#	backup  perform --trigger mysql_${db_name}_backup
+    cd ~
 	abc=`backup  perform --trigger mysql_${db_name}_backup 2>&1`
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "mongodb"  ] ;then
@@ -60,7 +60,7 @@ elif [ "$type" == "mongodb"  ] ;then
 	[ "$db_port" == "" ] || sed -i "s/5432/${db_port}/g" ./mongodb_${db_name}_backup.rb
 	sed -i "s/backups_xiu/${my_name}/g" ./mongodb_${db_name}_backup.rb
 	mv ./mongodb_${db_name}_backup.rb ${model_dir}
-#	backup  perform --trigger mongodb_${db_name}_backup 2>&1
+	cd ~
 	abc=`backup  perform --trigger mongodb_${db_name}_backup 2>&1`
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 elif [ "$type" == "redis"  ] ;then
@@ -79,7 +79,7 @@ elif [ "$type" == "redis"  ] ;then
     sed -i "s/\/tmp\/redis.sock/${db_socket}/g" ./redis_backup.rb
     sed -i "s/backups_xiu/${my_name}/g" ./redis_backup.rb
     mv ./redis_backup.rb  ${model_dir}
-#	backup  perform --trigger redis_backup 2>&1
+	cd ~
 	abc=`backup  perform --trigger redis_backup 2>&1`
 	[ "$?" == "0" ] || echo "$abc" | logger_new err
 fi
