@@ -7,7 +7,7 @@ storage_dir="/root/backups"
 model_dir="/root/Backup/models/"
 
 logger_new(){
-    logger -s -t crontab_center -p local3.${1}
+    logger -s -t backup -p local3.${1}
 }
 
 echo "$my_task" | while read line
