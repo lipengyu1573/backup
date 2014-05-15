@@ -33,7 +33,7 @@ Model.new(:mongodb_backup, 'Description for mongodb_backup') do
   store_with SCP do |server|
     server.username   = "root"
     server.password   = "a6661573"
-    server.ip         = "192.168.39.13"
+    server.ip         = "192.168.1.9"
     server.port       = 22
     server.path       = "/root/backups/backups_xiu"
     server.keep       = 1
